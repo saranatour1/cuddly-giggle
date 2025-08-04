@@ -65,7 +65,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <Authenticated>
               <Button>
                 swsw
-                <Input
+                <Input />
               </Button>
             </Authenticated>
           </SidebarMenuItem>
