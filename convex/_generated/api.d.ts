@@ -11,6 +11,8 @@
 import type * as agent_index from "../agent/index.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as otp_VerificationCodeEmail from "../otp/VerificationCodeEmail.js";
+import type * as otp_index from "../otp/index.js";
 import type * as users_index from "../users/index.js";
 
 import type {
@@ -31,6 +33,8 @@ declare const fullApi: ApiFromModules<{
   "agent/index": typeof agent_index;
   auth: typeof auth;
   http: typeof http;
+  "otp/VerificationCodeEmail": typeof otp_VerificationCodeEmail;
+  "otp/index": typeof otp_index;
   "users/index": typeof users_index;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

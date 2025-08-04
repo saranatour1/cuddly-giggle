@@ -3,18 +3,26 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
-
-import { AuthForm } from '@/components/auth-form';
-import { SubmitButton } from '@/components/submit-button';
+import { toast } from '@/components/toast';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { register, type RegisterActionState } from '../actions';
-import { toast } from '@/components/toast';
 import { useAuthActions } from '@convex-dev/auth/react';
+import { SubmitButton } from '@/components/submit-button';
+import { AuthForm } from '@/components/auth-form';
 
 export default function Page() {
   const router = useRouter();
   const { signIn } = useAuthActions();
-
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
@@ -24,6 +32,7 @@ export default function Page() {
       status: 'idle',
     },
   );
+
   useEffect(() => {
     if (state.status === 'user_exists') {
       toast({ type: 'error', description: 'Account already exists!' });
@@ -36,9 +45,7 @@ export default function Page() {
       });
     } else if (state.status === 'success' && state.data) {
       toast({ type: 'success', description: 'Account created successfully!' });
-      
       void signIn('password', state.data);
-
       setIsSuccessful(true);
       router.refresh();
     }
@@ -51,26 +58,30 @@ export default function Page() {
 
   return (
     <div className="flex h-dvh w-screen items-start pt-12 md:pt-0 md:items-center justify-center bg-background">
-      <div className="w-full max-w-md overflow-hidden rounded-2xl gap-12 flex flex-col">
-        <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-          <h3 className="text-xl font-semibold dark:text-zinc-50">Sign Up</h3>
-          <p className="text-sm text-gray-500 dark:text-zinc-400">
-            Create an account with your email and password
-          </p>
-        </div>
+      <div className="flex flex-col gap-6">
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl">Create an account</CardTitle>
+            <CardDescription>
+              Enter your email and password to create your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
         <AuthForm action={handleSubmit} defaultEmail={email} flow='signUp'>
-          <SubmitButton isSuccessful={isSuccessful}>Sign Up</SubmitButton>
+          <SubmitButton isSuccessful={isSuccessful}>Sign up</SubmitButton>
           <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
-            {'Already have an account? '}
+            {"Don't have an account? "}
             <Link
               href="/login"
               className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
             >
               Sign in
             </Link>
-            {' instead.'}
+            {' for free.'}
           </p>
         </AuthForm>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
